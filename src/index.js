@@ -1,40 +1,22 @@
-// 1 - escopo
-// 2 - muito usado para percorrer variáveis compostas | repetição em um intervalo
-// 3 - expressam condições
+require("dotenv").config({});
 
-// 1ª
+const TelegramBot = require("node-telegram-bot-api");
 
-var first = "antigo";
+const token = process.env.TOKEN || "ERROR_NO_TOKEN_PROVIDED";
 
-const handle_var = () => {
-  let first = "novo";
-};
+// Create a bot that uses 'polling' to fetch new updates
+const bot = new TelegramBot(token, { polling: true });
 
-// 2ª | 3ª
-const words = ["a", "b", "c", "d", "e", "f"];
+// Matches "/echo [whatever]"
+bot.onText(/\/echo (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const resp = match[1]; // the captured "whatever"
 
-const handle_loop = (type) => {
-  n = 0;
-  if (type === "while") {
-    console.log("------------------");
-    console.log("Usando while");
-    while (n <= 5) {
-      console.log(words[n]);
-      n++;
-    }
-    console.log("------------------");
-    console.log("------------------");
-  } else {
-    console.log("------------------");
-    console.log("Usando for");
-    for (let index = 0; index <= 5; index++) {
-      console.log(words[index]);
-    }
-    console.log("------------------");
-    console.log("------------------");
-  }
+  bot.sendMessage(chatId, resp);
+});
 
-  return;
-};
+bot.on("message", (msg) => {
+  const chatId = msg.chat.id;
 
-handle_loop("while");
+  bot.sendMessage(chatId, "Mensagem recebida com sucesso!");
+});
