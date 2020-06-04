@@ -16,7 +16,12 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
 });
 
 bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
+  var hi = "hi";
+  if (msg.text.toString().toLowerCase().indexOf(hi) === 0) {
+    bot.sendMessage(msg.chat.id, "Hello ,friend!");
+  }
 
-  bot.sendMessage(chatId, "Mensagem recebida com sucesso!");
+  if (msg.text.toString().toLowerCase().includes("bye")) {
+    bot.sendMessage(msg.chat.id, "obg pela prefêrencia!");
+  }
 });
